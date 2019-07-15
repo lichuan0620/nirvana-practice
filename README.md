@@ -1,6 +1,6 @@
 # Nirvana Practice Project
 
-As a HTTP server framework, [Nirvana](https://github.com/caicloud/nirvana) is robust but can also be quite complicated. This project let you learn writing Restful APIs with Nirvana with practice.
+As a HTTP server framework, [Nirvana](https://github.com/caicloud/nirvana) is robust but can also be quite complicated. This project let you practice writing Restful APIs with Nirvana.
 
 ## Prerequisites
 
@@ -15,6 +15,7 @@ The project is already runnable as it is. Use dep to install the dependencies an
 
 ```
 $ dep ensure -v
+
 $ VERSION=v0.1.0 make build
 ```
 
@@ -35,12 +36,22 @@ Now run the server and try the APIs.
 
 ```
 $ bin/practice-server -p 8080
+
 $ curl localhost:8080/api/v1alpha1/products/null
 {"reason":"practice:NotImplemented","message":"requested feature is not implemented"}
+
 $ curl localhost:8080/api/v1alpha1/products
 {"reason":"Nirvana:Router:RouterNotFound","message":"can't find router"}
 ```
 
 ## Do It Yourself
 
-The product API is already defined in `pkg/apis/v1alpha1/products.go` for you, alone with an incomplete `GET` API. Try to finish the `GET` API and write `POST`, `LIST`, `PUT`, and `DELETE` as well. Use GitHub issue to ask questions and, once finished, submit a PR to this repo to showoff your result. 
+The product API is already defined in `pkg/apis/v1alpha1/products.go` for you, alone with an incomplete `GET` API. Try to finish the `GET` API and write `POST`, `LIST`, `PUT`, and `DELETE` as well. 
+
+Use GitHub issue to ask questions and, once finished, submit a PR to this repo to show off your result. 
+
+## Containerize Your App
+
+Once your code is finished and tested, you might want to containerize your app so that you can deploy it practically. The Dockerfile is created for you under the `/build` directory. Try to finish it run `make container` to build the container images. 
+
+Check out [the official Docker Getting-Started guide](https://docs.docker.com/get-started/) if you are not already familiar with Docker and containers. 
