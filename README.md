@@ -4,9 +4,10 @@ As a HTTP server framework, [Nirvana](https://github.com/caicloud/nirvana) is ro
 
 ## Prerequisites
 
- - [Golang](https://golang.org/dl/) - the Go language  
- - [Nirvana](https://github.com/caicloud/nirvana) - hopefully you know what your are learning
+ - [Golang](https://golang.org/dl/) - the Go language
  - [dep](https://github.com/golang/dep) - the Go dependency management tool used by Nirvana
+ 
+That is. You'll use dep to install the required Go packages.
 
 ## Getting Started
 
@@ -20,24 +21,14 @@ $ VERSION=v0.1.0 make build
 Check out the help message and version information.
 
 ```
-$ bin/practice-server -h
-
-ENV-Flag Mapping Table
-
-   ENV        Flag         Current Value  
-1  HTTP_PORT  --http-port  8080           
-2  VERSION    --version    false
-
-Usage:
-  alerting-admin [flags]
-
-Flags:
-  -h, --help               help for alerting-admin
-  -p, --http-port uint16   port on which the HTTP server would be exposed (default 8080)
-  -v, --version            show version
+ $ bin/practice-server -h
+Usage of bin/practice-server:
+  -p, --port uint16   the HTTP port used by the server (default 8080)
+  -v, --version       show version info
+pflag: help requested
 
 $ bin/nirvana-practice -v
-nirvana-practice, version v0.1.0 (branch: master), revision: HEAD)
+nirvana-practice, version v0.1.0 (branch: master), revision: ab9132625bd5e2b9c8d3b2ff23c423cc9c02e9ec)
 ```
 
 Now run the server and try the APIs.

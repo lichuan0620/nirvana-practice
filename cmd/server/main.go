@@ -1,19 +1,36 @@
 package main
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/caicloud/nirvana"
 	"github.com/caicloud/nirvana/log"
+	"github.com/spf13/pflag"
 
-	"github.com/lichuan0620/nirvana-practice/cmd/server/options"
 	"github.com/lichuan0620/nirvana-practice/pkg/apis"
+	"github.com/lichuan0620/nirvana-practice/pkg/info"
 )
 
+var (
+	httpPort uint16
+	version  bool
+)
+
+func init() {
+	pflag.Uint16VarP(&httpPort, "port", "p", 8080, "the HTTP port used by the server")
+	pflag.BoolVarP(&version, "version", "v", false, "show version info")
+	pflag.Parse()
+}
+
 func main() {
-	// parse command line arguments
-	cmd := options.ParseCommands()
+	if version {
+		fmt.Printf("practice-server, %s\n", info.Info())
+		os.Exit(0)
+	}
 
 	// initialize Server config
-	config := nirvana.NewDefaultConfig().Configure(nirvana.Port(cmd.HTTPPort))
+	config := nirvana.NewDefaultConfig().Configure(nirvana.Port(httpPort))
 
 	// install APIs
 	apis.Install(config)
