@@ -1,13 +1,16 @@
 package main
 
 import (
+	//"context"
 	"fmt"
 	"os"
 
 	"github.com/caicloud/nirvana"
 	"github.com/caicloud/nirvana/log"
+	"github.com/caicloud/nirvana/rest"
 	"github.com/spf13/pflag"
 
+	"github.com/lichuan0620/nirvana-practice/client"
 	"github.com/lichuan0620/nirvana-practice/pkg/apis"
 	"github.com/lichuan0620/nirvana-practice/pkg/info"
 )
@@ -29,11 +32,16 @@ func main() {
 		os.Exit(0)
 	}
 
+	cli := client.MustNewClient(&rest.Config{
+		Scheme: "http",
+		Host:   "localhost:8081",
+	})
+
 	// initialize Server config
 	config := nirvana.NewDefaultConfig().Configure(nirvana.Port(httpPort))
 
 	// install APIs
-	apis.Install(config)
+	apis.Install(config, cli)
 
 	// create the server and server
 	server := nirvana.NewServer(config)
