@@ -1,14 +1,13 @@
 package service
 
 import (
-	v1alpha1 "github.com/lichuan0620/nirvana-practice/client/v1alpha1"
-	api "github.com/lichuan0620/nirvana-practice/pkg/apis/v1alpha1"
-
-	"github.com/lichuan0620/nirvana-practice/client"
-	"github.com/lichuan0620/nirvana-practice/pkg/errors"
-
 	"context"
 	"encoding/json"
+
+	"github.com/lichuan0620/nirvana-practice/client"
+	v1alpha1 "github.com/lichuan0620/nirvana-practice/client/v1alpha1"
+	api "github.com/lichuan0620/nirvana-practice/pkg/apis/v1alpha1"
+	"github.com/lichuan0620/nirvana-practice/pkg/errors"
 )
 
 type ProductService interface {
@@ -25,7 +24,7 @@ func NewProductService() ProductService {
 
 type productImpl struct{}
 
-var prefix string = "product-"
+const prefix string = "product-"
 
 func (p *productImpl) Create(cli client.Interface, input *api.Product) (*api.Product, error) {
 	cache := new(v1alpha1.Cache)

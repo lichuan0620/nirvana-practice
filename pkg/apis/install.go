@@ -7,6 +7,7 @@ import (
 
 	"github.com/lichuan0620/nirvana-practice/client"
 	"github.com/lichuan0620/nirvana-practice/pkg/apis/middlewares"
+	"github.com/lichuan0620/nirvana-practice/pkg/apis/service"
 	"github.com/lichuan0620/nirvana-practice/pkg/apis/v1alpha1/descriptors"
 )
 
@@ -16,7 +17,6 @@ func Install(config *nirvana.Config, client client.Interface) {
 		reqlog.Default(),
 		nirvana.Descriptor(
 			ProductAPIDescriptor(client),
-			//CacheAPIDescriptor(),
 		),
 	)
 }
@@ -38,6 +38,7 @@ func ProductAPIDescriptor(client client.Interface) definition.Descriptor {
 		Produces: []string{definition.MIMEJSON},
 		Middlewares: []definition.Middleware{
 			middlewares.WithClientInterface(client),
+			middlewares.WithProductService(service.NewProductService()),
 		},
 		Children: []definition.Descriptor{
 			{
@@ -57,11 +58,13 @@ func CacheAPIDescriptor() definition.Descriptor {
 		Path:     "/api",
 		Consumes: []string{definition.MIMEJSON},
 		Produces: []string{definition.MIMEJSON},
+		Middlewares: []definition.Middleware{
+			middlewares.WithCacheService(service.NewCacheService()),
+		},
 		Children: []definition.Descriptor{
 			{
 				Path: "/v1alpha1",
 				Children: []definition.Descriptor{
-					//descriptors.ProductDescriptor(),
 					descriptors.CacheDescriptor(),
 				},
 				Description: "all v1alpha1 APIs",

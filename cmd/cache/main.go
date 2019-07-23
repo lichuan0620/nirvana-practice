@@ -12,18 +12,16 @@ import (
 	"github.com/lichuan0620/nirvana-practice/pkg/info"
 )
 
-var (
-	httpPort uint16
-	version  bool
-)
+func main() {
+	var (
+		httpPort uint16
+		version  bool
+	)
 
-func init() {
 	pflag.Uint16VarP(&httpPort, "port", "p", 8081, "the HTTP port used by the server")
 	pflag.BoolVarP(&version, "version", "v", false, "show version info")
 	pflag.Parse()
-}
 
-func main() {
 	if version {
 		fmt.Printf("practice-cache, %s\n", info.Info())
 		os.Exit(0)
