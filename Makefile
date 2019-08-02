@@ -10,7 +10,7 @@ VERSION ?= $(COMMIT)
 # Git commit sha.
 COMMIT := $(shell git rev-parse HEAD)
 # Git branch name,
-BRANCH := $(shell git branch | grep \* | cut -d ' ' -f2))
+BRANCH := $(shell git branch | grep \* | cut -d ' ' -f2)
 
 IMAGE_PREFIX := practice-
 
@@ -47,24 +47,16 @@ build-local:
 	    $(CMD_DIR)/$${target};                                                         \
 	done
 
-build-linux:
-	@for target in $(TARGETS); do                                                      \
-	  CGO_ENABLED=0 GOOS=linux GOARCH=amd64											   \
-	  go build -v -o $(OUTPUT_DIR)/$(IMAGE_PREFIX)$${target}						   \
-	    -ldflags "-s -w										                      	   \
-	              -X  $(ROOT)/pkg/info.version=$(VERSION)							   \
-	              -X  $(ROOT)/pkg/info.commit=$(COMMIT)								   \
-	              -X  $(ROOT)/pkg/info.branch=$(BRANCH)"							   \
-	    $(CMD_DIR)/$${target};                                                         \
-	done
-
-container: test build-linux
+container: test
 	@for target in $(TARGETS); do                                                      \
 	  image=$(IMAGE_PREFIX)$${target}$(IMAGE_SUFFIX);                                  \
 	  docker build -t $(REGISTRY)/$${image}:$(VERSION)                                 \
+		--build-arg VERSION=$(VERSION) 												   \
+		--build-arg COMMIT=$(COMMIT)                                                   \
+		--build-arg BRANCH=$(BRANCH)                                                   \
 	    -f $(BUILD_DIR)/$${target}/Dockerfile .;                                       \
 	done
-
+	
 push: container
 	@for target in $(TARGETS); do                                                      \
 	  image=$(IMAGE_PREFIX)$${target}$(IMAGE_SUFFIX);                                  \
